@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Button, Radio, Segment, Grid, Icon, Message } from 'semantic-ui-react';
+import { connect } from 'react-redux'
 import { emailValidator } from '../../Shared';
+import { Signup as SignupActionDispatcher } from '../../Redux/actionCreaters'
 class Signup extends React.Component {
     state = {
         email: '',
@@ -19,8 +21,12 @@ class Signup extends React.Component {
         passwordErrMess: '',
         confirmPasswordErr: false,
         confirmPasswordErrMess: '',
-        serverErrMess: null,
+        serverErr: false,
+        serverErrMess: '',
         formError: false,
+        isLoading: false,
+        successfullMess:null
+        
     }
     changeHandler = (e) => this.setState({ [e.target.name]: e.target.value })
     genderHandler = (e, { value }) => this.setState({ gender: value })
@@ -175,7 +181,8 @@ class Signup extends React.Component {
                 gender: this.state.gender,
                 password: this.state.password
             }
-            console.log(formData);
+            this.props.dispatch(SignupActionDispatcher(formData))
+
         }
 
     }
@@ -186,11 +193,43 @@ class Signup extends React.Component {
             {this.state.lastnameErr ? <li> {this.state.lastnameErrMess}</li> : null}
             {this.state.passwordErr ? <li>{this.state.passwordErrMess}</li> : null}
             {this.state.confirmPasswordErr ? <li> {this.state.confirmPasswordErrMess}</li> : null}
+            {this.state.serverErr ? <li>{this.state.serverErrMess}</li> : null}
         </ul>
     )
+    static getDerivedStateFromProps(props, state) {
+        if (props.signup.isLoading) {
+            return {
+                ...state,
+                isLoading: props.signup.isLoading
+            }
+        }
+        else if (props.signup.errMess) {
+            return {
+                ...state,
+                isLoading: props.signup.isLoading,
+                errMess: props.signup.errMess,
+                formError: true,
+                serverErrMess: props.signup.errMess,
+                serverErr: true
+            }
+        }
+        else {
+            return {
+                ...state,
+                isLoading: props.signup.isLoading,
+                serverErr: false,
+                successfullMess:props.signup.successfullMess
+            }
+        }
+    }
     render() {
+        if (this.state.successfullMess) {
+            return (
+                <Message success content={this.props.signup.successfullMess} />
+            )
+        }
         return (
-            <Segment raised>
+            <Segment loading={this.state.isLoading} raised>
                 <Form error={this.state.formError} onSubmit={this.submitHandler}>
                     <Grid centered columns="1">
                         <Icon size="massive" name="user circle" />
@@ -269,4 +308,7 @@ class Signup extends React.Component {
         )
     }
 }
-export default Signup;
+const mapStateToProps = (store) => ({
+    signup: store.signup
+})
+export default connect(mapStateToProps)(Signup);

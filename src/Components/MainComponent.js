@@ -1,16 +1,22 @@
 import React from 'react';
 import Header from './Header';
-import { Sidebar, Container, Segment, Sticky } from 'semantic-ui-react';
-import { Switch, Route } from 'react-router-dom';
+import { Sidebar, Container } from 'semantic-ui-react';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import SidebarComponent from './Header/Sidebar';
 import Signin from './Signin';
 import Signup from './Signup';
+import { connect } from 'react-redux'
+import Protected from './ProtectedRoute';
+import { Authenticate } from '../Redux/actionCreaters'
 class Main extends React.Component {
     state = {
         sidbarIsOpen: false
     }
     openSideBar = () => this.setState({ sidbarIsOpen: true })
     closeSideBar = () => this.setState({ sidbarIsOpen: false })
+    componentDidMount() {
+        this.props.dispatch(Authenticate());
+    }
     render() {
         return (
             <div className="app-container">
@@ -22,13 +28,13 @@ class Main extends React.Component {
                             <div className="content-container">
                                 <Container>
                                     <Switch>
-                                        <Route path="/signin" component={Signin} />
-                                        <Route path="/signup" component={Signup} />
+                                        <Protected path="/signin" component={Signin} />
+                                        <Protected path="/signup" component={Signup} />
                                     </Switch>
                                 </Container>
                             </div>
                             <div className="footer">
-                            <h2>Footer</h2>
+                                <h2>Footer</h2>
                             </div>
                         </div>
                     </Sidebar.Pusher>
@@ -37,4 +43,4 @@ class Main extends React.Component {
         )
     }
 }
-export default Main;
+export default withRouter(connect()(Main));

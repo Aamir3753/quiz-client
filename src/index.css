@@ -48,3 +48,16 @@
         
     }
 }
+.sinup-segment-container{
+display: flex;
+justify-content: center;
+padding:10px
+}
+.signup-segment-width{
+    width: 600px;
+}
+.search-container{
+    display:flex;
+    justify-content: flex-end;
+    margin-bottom:20px;
+}

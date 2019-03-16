@@ -5,9 +5,12 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import SidebarComponent from './Header/Sidebar';
 import Signin from './Signin';
 import Signup from './Signup';
-import { connect } from 'react-redux'
+import Quizes from './Quizes';
+import { connect } from 'react-redux';
 import Protected from './ProtectedRoute';
-import { Authenticate } from '../Redux/actionCreaters'
+import QuizDetail from './QuizDetail';
+import { Authenticate, Quizes as QuizesActionDispatcher } from '../Redux/actionCreaters';
+
 class Main extends React.Component {
     state = {
         sidbarIsOpen: false
@@ -16,7 +19,12 @@ class Main extends React.Component {
     closeSideBar = () => this.setState({ sidbarIsOpen: false })
     componentDidMount() {
         this.props.dispatch(Authenticate());
+        this.props.dispatch(QuizesActionDispatcher());
     }
+    Home = props => (<Quizes {...props}
+        isLoading={this.props.quizes.isLoading}
+        errMess={this.props.quizes.errMess}
+        quizes={this.props.quizes.quizes} />)
     render() {
         return (
             <div className="app-container">
@@ -28,6 +36,8 @@ class Main extends React.Component {
                             <div className="content-container">
                                 <Container>
                                     <Switch>
+                                        <Route exact path="/" component={this.Home} />
+                                        <Route path="/quizDetail/:quizId" component={QuizDetail} />
                                         <Protected path="/signin" component={Signin} />
                                         <Protected path="/signup" component={Signup} />
                                     </Switch>
@@ -43,4 +53,7 @@ class Main extends React.Component {
         )
     }
 }
-export default withRouter(connect()(Main));
+const mapStateToProps = (store) => ({
+    quizes: store.quizes
+})
+export default withRouter(connect(mapStateToProps)(Main));

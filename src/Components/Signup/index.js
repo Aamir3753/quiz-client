@@ -25,8 +25,8 @@ class Signup extends React.Component {
         serverErrMess: '',
         formError: false,
         isLoading: false,
-        successfullMess:null
-        
+        successfullMess: null
+
     }
     changeHandler = (e) => this.setState({ [e.target.name]: e.target.value })
     genderHandler = (e, { value }) => this.setState({ gender: value })
@@ -218,7 +218,7 @@ class Signup extends React.Component {
                 ...state,
                 isLoading: props.signup.isLoading,
                 serverErr: false,
-                successfullMess:props.signup.successfullMess
+                successfullMess: props.signup.successfullMess
             }
         }
     }
@@ -229,82 +229,85 @@ class Signup extends React.Component {
             )
         }
         return (
-            <Segment loading={this.state.isLoading} raised>
-                <Form error={this.state.formError} onSubmit={this.submitHandler}>
-                    <Grid centered columns="1">
-                        <Icon size="massive" name="user circle" />
-                    </Grid>
-                    <Form.Field>
-                        <Form.Input label="Email"
-                            type="email"
-                            error={this.state.emailErr}
-                            onBlur={this.blurHandler}
-                            onChange={this.changeHandler}
-                            name="email"
-                            value={this.state.email}
-                            placeholder='Enter Email here' />
-                    </Form.Field>
-                    <Form.Field>
-                        <Form.Input
-                            onBlur={this.blurHandler}
-                            error={this.state.firstnameErr}
-                            type="text"
-                            label="First name"
-                            onChange={this.changeHandler}
-                            name="firstname"
-                            value={this.state.firstname}
-                            placeholder='Enter first name here' />
-                    </Form.Field>
-                    <Form.Field>
-                        <Form.Input
-                            type="text"
-                            onBlur={this.blurHandler}
-                            error={this.state.lastnameErr}
-                            onChange={this.changeHandler}
-                            name="lastname"
-                            value={this.state.lastname}
-                            placeholder='Enter last name here' />
-                    </Form.Field>
-                    <Form.Group inline>
-                        <label>Gender</label>
-                        <Form.Field
-                            control={Radio}
-                            label='Male'
-                            onChange={this.genderHandler}
-                            value="male"
-                            checked={this.state.gender === "male"}
-                        />
-                        <Form.Field
-                            control={Radio}
-                            label='Female'
-                            onChange={this.genderHandler}
-                            value="female"
-                            checked={this.state.gender === "female"}
-                        />
-                    </Form.Group>
-                    <Form.Field>
-                        <Form.Input
-                            onChange={this.changeHandler}
-                            onBlur={this.blurHandler}
-                            error={this.state.passwordErr}
-                            name="password"
-                            value={this.state.password}
-                            type="password" placeholder='Enter password here' />
-                    </Form.Field>
-                    <Form.Field>
-                        <Form.Input
-                            label="Confirm password"
-                            onBlur={this.blurHandler}
-                            error={this.state.confirmPasswordErr}
-                            onChange={this.changeHandler}
-                            name="confirmPassword"
-                            value={this.state.confirmPassword}
-                            type="password" placeholder='Confirm password' />
-                    </Form.Field>
-                    <Message error header="Signup Failed" content={<this.Errors />} />
-                    <Button secondary type='submit'>Submit</Button>
-                </Form>
-            </Segment>
+            <div className="sinup-segment-container">
+                <Segment className="signup-segment-width" loading={this.state.isLoading} raised>
+                    <Form error={this.state.formError} onSubmit={this.submitHandler}>
+                        <Grid centered columns="1">
+                            <Icon size="massive" name="user circle" />
+                        </Grid>
+                        <Form.Field>
+                            <Form.Input label="Email"
+                                type="email"
+                                error={this.state.emailErr}
+                                onBlur={this.blurHandler}
+                                onChange={this.changeHandler}
+                                name="email"
+                                value={this.state.email}
+                                placeholder='Enter Email here' />
+                        </Form.Field>
+                        <Form.Field>
+                            <Form.Input
+                                onBlur={this.blurHandler}
+                                error={this.state.firstnameErr}
+                                type="text"
+                                label="First name"
+                                onChange={this.changeHandler}
+                                name="firstname"
+                                value={this.state.firstname}
+                                placeholder='Enter first name here' />
+                        </Form.Field>
+                        <Form.Field>
+                            <Form.Input
+                                label="Last name"
+                                type="text"
+                                onBlur={this.blurHandler}
+                                error={this.state.lastnameErr}
+                                onChange={this.changeHandler}
+                                name="lastname"
+                                value={this.state.lastname}
+                                placeholder='Enter last name here' />
+                        </Form.Field>
+                        <Form.Group inline>
+                            <label>Gender</label>
+                            <Form.Field
+                                control={Radio}
+                                label='Male'
+                                onChange={this.genderHandler}
+                                value="male"
+                                checked={this.state.gender === "male"}
+                            />
+                            <Form.Field
+                                control={Radio}
+                                label='Female'
+                                onChange={this.genderHandler}
+                                value="female"
+                                checked={this.state.gender === "female"}
+                            />
+                        </Form.Group>
+                        <Form.Field>
+                            <Form.Input
+                                onChange={this.changeHandler}
+                                onBlur={this.blurHandler}
+                                error={this.state.passwordErr}
+                                name="password"
+                                value={this.state.password}
+                                type="password" placeholder='Enter password here' />
+                        </Form.Field>
+                        <Form.Field>
+                            <Form.Input
+                                label="Confirm password"
+                                onBlur={this.blurHandler}
+                                error={this.state.confirmPasswordErr}
+                                onChange={this.changeHandler}
+                                name="confirmPassword"
+                                value={this.state.confirmPassword}
+                                type="password" placeholder='Confirm password' />
+                        </Form.Field>
+                        <Message error header="Signup Failed" content={<this.Errors />} />
+                        <Button secondary type='submit'>Submit</Button>
+                    </Form>
+                </Segment>
+            </div>
         )
     }
 }

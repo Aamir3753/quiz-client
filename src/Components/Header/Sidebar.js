@@ -2,7 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sidebar as SemanticSidebar, Menu, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { Authenticate } from '../../Redux/actionCreaters'
 const Sidebar = (props) => {
+    const logoutHandler = () => {
+        props.dispatch(Authenticate(true));
+        props.closeSideBar()
+    }
     return (
         <SemanticSidebar
             as={Menu}
@@ -22,11 +27,14 @@ const Sidebar = (props) => {
                         </Menu.Item>
                         <Menu.Item onClick={props.closeSideBar} as={Link} to="/">
                             <Icon name='home' />
-                            Home
+                            HOME
                         </Menu.Item>
                         <Menu.Item onClick={props.closeSideBar} as={Link} to="/">
                             <Icon name="user" />
-                            {props.authenticate.user.firstname + props.authenticate.user.lastname}
+                            {props.authenticate.user.firstname + " " + props.authenticate.user.lastname}
+                        </Menu.Item>
+                        <Menu.Item onClick={logoutHandler}>
+                            <Icon name="sign out" />SIGN OUT
                         </Menu.Item>
                     </React.Fragment>
                 ) : (
@@ -36,15 +44,15 @@ const Sidebar = (props) => {
                             </Menu.Item>
                             <Menu.Item onClick={props.closeSideBar} as={Link} to="/">
                                 <Icon name='home' />
-                                Home
+                                HOME
                     </Menu.Item>
                             <Menu.Item onClick={props.closeSideBar} as={Link} to="/SignIn">
                                 <Icon name="sign in" />
-                                SignIn
+                                SIGN IN
                      </Menu.Item>
                             <Menu.Item onClick={props.closeSideBar} as={Link} to="/Signup">
                                 <Icon name="signup" />
-                                SignUp
+                                SIGN UP
                     </Menu.Item>
                         </React.Fragment>
                     )

@@ -9,7 +9,9 @@ import Quizes from './Quizes';
 import { connect } from 'react-redux';
 import Protected from './ProtectedRoute';
 import QuizDetail from './QuizDetail';
+import StartQuiz from './SartQuiz';
 import { Authenticate, Quizes as QuizesActionDispatcher } from '../Redux/actionCreaters';
+import Private from './PrivateRoute';
 
 class Main extends React.Component {
     state = {
@@ -38,6 +40,7 @@ class Main extends React.Component {
                                     <Switch>
                                         <Route exact path="/" component={this.Home} />
                                         <Route path="/quizDetail/:quizId" component={QuizDetail} />
+                                        <Private path="/startQuiz/:quizId" component={StartQuiz} />
                                         <Protected path="/signin" component={Signin} />
                                         <Protected path="/signup" component={Signup} />
                                     </Switch>

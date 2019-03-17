@@ -61,3 +61,16 @@ padding:10px
     justify-content: flex-end;
     margin-bottom:20px;
 }
+.quiz-detail-container{
+    margin-bottom:5px;
+}
+.option-container{
+margin-bottom:10px;
+}
+.question-container{
+    margin-bottom:5px;
+}
+.next-button-container{
+    display: flex;
+    justify-content: flex-end;
+}

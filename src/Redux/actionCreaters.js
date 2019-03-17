@@ -146,3 +146,50 @@ const quiz_detail_success = (quiz) => ({
     quiz
 })
 //................................................................................>
+
+// Question paper action creater
+export const QuestionPaper = (quizId) => dispatch => {
+    dispatch(question_paper_loading());
+    const isTokenVerified = verifyToken();
+    if (!isTokenVerified) {
+        Authenticate(true)(dispatch);
+        dispatch(question_paper_failed("Your are not authenticated"));
+        return;
+    }
+    const token = localStorage.getItem("token");
+    axios.get(`${baseUrl}start/${quizId}`, {
+        headers: {
+            "Authorization": "bearer " + token
+        }
+    })
+        .then(res => {
+            if (res.data.success) {
+                dispatch(question_paper_success(res.data.questions))
+            }
+        })
+        .catch(err => {
+            if (err.response) {
+                    if(err.response.data.err)
+                dispatch(question_paper_failed(err.response.data.err.message))
+                else{
+                dispatch(question_paper_failed(err.response.data.message))
+                }
+            } else {
+                dispatch(question_paper_failed("Some thing went wrong please try later"));
+            }
+        })
+}
+// Question paper acions
+
+const question_paper_loading = () => ({
+    type: actionTypes.QUESTION_PAPER_LOADING
+})
+const question_paper_failed = (errMess) => ({
+    type: actionTypes.QUESTION_PAPER_FAILED,
+    errMess
+})
+const question_paper_success = (questions) => ({
+    type: actionTypes.QUESTION_PAPER_SUCCESS,
+    questions
+})
+//..........................................................................>

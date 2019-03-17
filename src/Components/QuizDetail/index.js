@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom';
 import { Dimmer, Loader, Message, Divider, Segment, Button } from 'semantic-ui-react';
 import { QuizDetail as QuizDetailActionDispatcher } from '../../Redux/actionCreaters';
 class QuizDetail extends Component {
@@ -22,7 +23,7 @@ class QuizDetail extends Component {
             )
         }
         return (
-            <div >
+            <div className="quiz-detail-container" >
                 <Segment raised>
                     <div>
                         <h3>{this.props.quiz.quiz.title}</h3>
@@ -41,7 +42,7 @@ class QuizDetail extends Component {
                             Passing Score : {this.props.quiz.quiz.passingScore}
                         </div>
                         <Divider />
-                        <Button size="large" primary>
+                        <Button as={Link} to={`/startQuiz/${this.props.match.params.quizId}`} size="large" primary>
                             Start
                         </Button>
                     </div>

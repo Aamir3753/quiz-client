@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom';
-import { Dimmer, Loader, Message, Divider, Segment, Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { Dimmer, Loader, Message, Breadcrumb, Divider, Segment, Button } from 'semantic-ui-react';
 import { QuizDetail as QuizDetailActionDispatcher } from '../../Redux/actionCreaters';
 class QuizDetail extends Component {
     componentDidMount() {
@@ -24,7 +24,16 @@ class QuizDetail extends Component {
         }
         return (
             <div className="quiz-detail-container" >
-                <Segment raised>
+                <Breadcrumb>
+                    <Breadcrumb.Section as={Link} to="/" link>
+                        Home
+                        </Breadcrumb.Section>
+                    <Breadcrumb.Divider icon="right arrow" />
+                    <Breadcrumb.Section active>
+                        Quiz Details
+                        </Breadcrumb.Section>
+                </Breadcrumb>
+                <Segment piled raised>
                     <div>
                         <h3>{this.props.quiz.quiz.title}</h3>
                         <Divider />

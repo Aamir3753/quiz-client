@@ -5,6 +5,8 @@ import { Authenticate } from './Reducers/Authenticate';
 import { Quizes } from './Reducers/Quizes';
 import { QuizDetail } from './Reducers/QuizDetail'
 import { Questions } from './Reducers/Questions';
+import { Results } from './Reducers/Results';
+import {ResultDetail} from './Reducers/ResultDetail';
 import thunk from 'redux-thunk';
 const store = createStore(combineReducers({
     signup: Signup,
@@ -12,6 +14,8 @@ const store = createStore(combineReducers({
     authenticate: Authenticate,
     quizes: Quizes,
     quizDetail: QuizDetail,
-    questions: Questions
+    questions: Questions,
+    results: Results,
+    resultDetail:ResultDetail
 }), applyMiddleware(thunk));
 export default store;

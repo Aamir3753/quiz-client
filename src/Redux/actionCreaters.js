@@ -37,7 +37,7 @@ export const Siginin = (cred) => dispatch => {
         .then(res => {
             localStorage.setItem("token", res.data.token);
             dispatch(signin_successfull());
-            Authenticate()(dispatch);
+            Authenticate({ signout: false })(dispatch);
         })
         .catch(err => {
             if (err.response) {
@@ -62,10 +62,14 @@ const signin_successfull = () => ({
 // ..........................................................................>
 
 // Authenticate action creaters
-export const Authenticate = (signout = false) => dispatch => {
-    if (signout) localStorage.clear("token");
+export const Authenticate = (info) => dispatch => {
+    console.log(info.redirectTo);
+    if (info.signout) localStorage.clear("token");
     const user = verifyToken();
-    if (user) dispatch(authenticate(user))
+    if (user) {
+        user.redirectTo = info.redirectTo
+        dispatch(authenticate(user))
+    }
     else dispatch(unAuthenticate())
 }
 // Authenticate actions
@@ -118,12 +122,10 @@ export const QuizDetail = (quizId) => dispatch => {
     axios.get(baseUrl + "quiz/" + quizId)
         .then(res => {
             if (res.data.success) {
-                console.log(res.data)
                 dispatch(quiz_detail_success(res.data.quizDetail));
             }
         })
         .catch(err => {
-            console.log(err)
             if (err.response) {
                 dispatch(quiz_detail_failed(err.response.data.err.message))
             } else {
@@ -169,10 +171,10 @@ export const QuestionPaper = (quizId) => dispatch => {
         })
         .catch(err => {
             if (err.response) {
-                    if(err.response.data.err)
-                dispatch(question_paper_failed(err.response.data.err.message))
-                else{
-                dispatch(question_paper_failed(err.response.data.message))
+                if (err.response.data.err)
+                    dispatch(question_paper_failed(err.response.data.err.message))
+                else {
+                    dispatch(question_paper_failed(err.response.data.message))
                 }
             } else {
                 dispatch(question_paper_failed("Some thing went wrong please try later"));
@@ -192,4 +194,118 @@ const question_paper_success = (questions) => ({
     type: actionTypes.QUESTION_PAPER_SUCCESS,
     questions
 })
+
 //..........................................................................>
+
+// Submit question paper action creater
+export const SubmitQuestionPaper = (questionPaper, push) => dispatch => {
+    dispatch(question_paper_loading())
+    const isTokenVerified = verifyToken();
+    if (!isTokenVerified) {
+        Authenticate(true)(dispatch);
+        dispatch(question_paper_failed("Your are not authenticated"));
+        return;
+    }
+    const token = localStorage.getItem("token");
+    axios.post(`${baseUrl}result`, questionPaper, {
+        headers: {
+            "Authorization": "bearer " + token
+        }
+    })
+        .then(res => {
+            if (res.data.success) push(`/resultDetail/${res.data.result._id}`)
+            else {
+                dispatch(question_paper_failed("Quiz not submited please try later"))
+            }
+        })
+        .catch(err => {
+            dispatch(question_paper_failed(err.message))
+        })
+}
+// ............................................................................>
+// Restults actions creater
+export const Results = () => dispatch => {
+    dispatch(results_loading())
+    const isTokenVerified = verifyToken();
+    if (!isTokenVerified) {
+        Authenticate({ singout: true, redirectTo: "/signin" })(dispatch);
+        dispatch(question_paper_failed("Your are not authenticated"));
+        return;
+    }
+    const token = localStorage.getItem("token");
+    axios.get(`${baseUrl}result`, {
+        headers: {
+            "Authorization": "bearer " + token
+        }
+    })
+        .then(res => {
+            console.log(res);
+            if (res.data.success) {
+                dispatch(results_success(res.data.result));
+            }
+        })
+        .catch(err => {
+            if (err.response) {
+                dispatch(results_failed(err.response.data.err.message))
+            } else {
+                dispatch(results_failed("Some thing went wrong please try later"));
+            }
+        })
+
+}
+// Results actions
+const results_loading = () => ({
+    type: actionTypes.RESULTS_LOADING
+})
+const results_failed = (errMess) => ({
+    type: actionTypes.RESULTS_FAILED,
+    errMess
+})
+const results_success = (results) => ({
+    type: actionTypes.RESULTS_SUCCESS,
+    results
+})
+// ..........................................................>
+
+// Result detail actions creater
+export const ResultDetail = (resultId) => dispatch => {
+    dispatch(result_detail_loading());
+    const isTokenVerified = verifyToken();
+    if (!isTokenVerified) {
+        Authenticate({ signuot: true, redirectTo: '/sigin' })(dispatch);
+        dispatch(question_paper_failed("Your are not authenticated"));
+        return;
+    }
+    const token = localStorage.getItem("token");
+    axios.get(`${baseUrl}result/${resultId}`, {
+        headers: {
+            "Authorization": "bearer " + token
+        }
+    })
+        .then(res => {
+            if (res.data.success) {
+                dispatch(result_detail_success(res.data.resultDetail));
+            }
+        })
+        .catch(err => {
+            console.log(err.response)
+            if (err.response) {
+                dispatch(result_detail_failed(err.response.data.err.message))
+            } else {
+                dispatch(result_detail_failed("Some thing went wrong please try later"));
+            }
+        })
+}
+// Result detail action
+const result_detail_loading = () => ({
+    type: actionTypes.RESULT_DETAIL_LOADING
+})
+const result_detail_failed = (errMess) => ({
+    type: actionTypes.RESULT_DETAIL_FAILED,
+    errMess
+})
+const result_detail_success = (result) => ({
+    type: actionTypes.RESULT_DETAIL_SUCCESS,
+    result: result
+})
+// ..................................................................>

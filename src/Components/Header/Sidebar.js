@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Authenticate } from '../../Redux/actionCreaters'
 const Sidebar = (props) => {
     const logoutHandler = () => {
-        props.dispatch(Authenticate(true));
+        props.dispatch(Authenticate({signout:true,redirectTo:'/home'}));
         props.closeSideBar()
     }
     return (
@@ -26,12 +26,16 @@ const Sidebar = (props) => {
                             <Icon name="arrow left" />
                         </Menu.Item>
                         <Menu.Item onClick={props.closeSideBar} as={Link} to="/">
+                            <Icon name="user" />
+                            {props.authenticate.user.firstname + " " + props.authenticate.user.lastname}
+                        </Menu.Item>
+                        <Menu.Item onClick={props.closeSideBar} as={Link} to="/">
                             <Icon name='home' />
                             HOME
                         </Menu.Item>
-                        <Menu.Item onClick={props.closeSideBar} as={Link} to="/">
-                            <Icon name="user" />
-                            {props.authenticate.user.firstname + " " + props.authenticate.user.lastname}
+                        <Menu.Item onClick={props.closeSideBar} as={Link} to="/results">
+                            <Icon name='file text' />
+                            RESULTS
                         </Menu.Item>
                         <Menu.Item onClick={logoutHandler}>
                             <Icon name="sign out" />SIGN OUT
@@ -46,11 +50,11 @@ const Sidebar = (props) => {
                                 <Icon name='home' />
                                 HOME
                     </Menu.Item>
-                            <Menu.Item onClick={props.closeSideBar} as={Link} to="/SignIn">
+                            <Menu.Item onClick={props.closeSideBar} as={Link} to="/signin">
                                 <Icon name="sign in" />
                                 SIGN IN
                      </Menu.Item>
-                            <Menu.Item onClick={props.closeSideBar} as={Link} to="/Signup">
+                            <Menu.Item onClick={props.closeSideBar} as={Link} to="/signup">
                                 <Icon name="signup" />
                                 SIGN UP
                     </Menu.Item>

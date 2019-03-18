@@ -19,7 +19,7 @@ const Quizes = (props) => {
                 <Search navigate={props.history.push} />
                 <Card.Group>
                     {props.quizes.map(quiz => (
-                        <Card as={Link} to={`/quizDetail/${quiz._id}`} raised centered link key={quiz._id}>
+                        <Card  as={Link} to={`/quizDetail/${quiz._id}`} raised centered link key={quiz._id}>
                             <Card.Content>
                                 <Card.Header>
                                     {quiz.title}

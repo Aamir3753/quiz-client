@@ -3,19 +3,23 @@ import { Form, Button, Checkbox, Segment, Message, Grid, Icon } from 'semantic-u
 import { connect } from 'react-redux';
 import { Siginin as SigininActionDispatcher } from '../../Redux/actionCreaters'
 class Signin extends React.Component {
-    state = {
-        email: '',
-        password: '',
-        remember: false,
-        emailErr: false,
-        emailErrMess: null,
-        passwordErr: false,
-        passwordErrMess: null,
-        serverErrMess: null,
-        serverErr: false,
-        formError: false,
-        isLoading: false,
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            password: '',
+            remember: false,
+            emailErr: false,
+            emailErrMess: null,
+            passwordErr: false,
+            passwordErrMess: null,
+            serverErrMess: null,
+            serverErr: false,
+            formError: false,
+            isLoading: false,
+        }
     }
+
     changeHandler = (e) => this.setState({ [e.target.name]: e.target.value })
     rememberHandler = () => this.setState(preSt => ({ remember: !preSt.remember }))
     submitHandler = (e) => {
@@ -42,17 +46,17 @@ class Signin extends React.Component {
                     isLoading: false,
                     emailErrMess: "Incorrect Email",
                     formError: true,
-                    passwordErr:false,
+                    passwordErr: false,
                 }
             }
-            else if(props.signin.errMess === "IncorrectPasswordError") {
+            else if (props.signin.errMess === "IncorrectPasswordError") {
                 return {
                     ...state,
                     passwordErr: true,
                     isLoading: false,
                     passwordErrMess: "Incorrect  password",
                     formError: true,
-                    emailErr:false
+                    emailErr: false
                 }
             }
             return {
@@ -60,8 +64,8 @@ class Signin extends React.Component {
                 formError: true,
                 serverErr: true,
                 isLoading: false,
-                emailErr:false,
-                passwordErr:false,
+                emailErr: false,
+                passwordErr: false,
                 serverErrMess: props.signin.errMess
 
             }
@@ -83,7 +87,7 @@ class Signin extends React.Component {
     render() {
         return (
             <div className="login-segment-container">
-                <Segment loading={this.state.isLoading} className="login-segment" raised>
+                <Segment piled loading={this.state.isLoading} className="login-segment" raised>
                     <Form error={this.state.formError} onSubmit={this.submitHandler}>
                         <Grid centered columns="1">
                             <Icon size="massive" name="user circle" />

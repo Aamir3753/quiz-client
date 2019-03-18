@@ -10,17 +10,25 @@ import { connect } from 'react-redux';
 import Protected from './ProtectedRoute';
 import QuizDetail from './QuizDetail';
 import StartQuiz from './SartQuiz';
+import Results from './Results';
+import ResultDetail from './ResultDetail';
 import { Authenticate, Quizes as QuizesActionDispatcher } from '../Redux/actionCreaters';
 import Private from './PrivateRoute';
 
 class Main extends React.Component {
-    state = {
-        sidbarIsOpen: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            sidbarIsOpen: false,
+            redirectTo: this.props.location.pathname
+        }
     }
+
     openSideBar = () => this.setState({ sidbarIsOpen: true })
     closeSideBar = () => this.setState({ sidbarIsOpen: false })
     componentDidMount() {
-        this.props.dispatch(Authenticate());
+        this.props.dispatch(Authenticate({ signout: false, redirectTo: this.state.redirectTo }));
+        console.log(this.state.redirectTo)
         this.props.dispatch(QuizesActionDispatcher());
     }
     Home = props => (<Quizes {...props}
@@ -32,7 +40,7 @@ class Main extends React.Component {
             <div className="app-container">
                 <Sidebar.Pushable>
                     <SidebarComponent sidbarIsOpen={this.state.sidbarIsOpen} closeSideBar={this.closeSideBar} />
-                    <Sidebar.Pusher>
+                    <Sidebar.Pusher dimmed={this.state.sidbarIsOpen}>
                         <div className="main-container">
                             <Header openSideBar={this.openSideBar} />
                             <div className="content-container">
@@ -41,6 +49,8 @@ class Main extends React.Component {
                                         <Route exact path="/" component={this.Home} />
                                         <Route path="/quizDetail/:quizId" component={QuizDetail} />
                                         <Private path="/startQuiz/:quizId" component={StartQuiz} />
+                                        <Private path="/results" component={Results} />
+                                        <Private path="/resultDetail/:resultId" component={ResultDetail} />
                                         <Protected path="/signin" component={Signin} />
                                         <Protected path="/signup" component={Signup} />
                                     </Switch>

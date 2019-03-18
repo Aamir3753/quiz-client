@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Authenticate } from '../../Redux/actionCreaters'
 const Navbar = (props) => {
     const logoutHandler = () => {
-        props.dispatch(Authenticate(true));
+        props.dispatch(Authenticate({signout:true,redirectTo:'/home'}));
     }
     if (props.authenticate.isAuthentic) {
         return (
@@ -15,6 +15,9 @@ const Navbar = (props) => {
                 </Button>
                 <Button as={Link} to="/" secondary>
                     <Icon name="home" />HOME
+                </Button>
+                <Button as={Link} to="/results" secondary>
+                    <Icon name="file text" />RESULTS
                 </Button>
                 <Button onClick={logoutHandler} secondary>
                     <Icon name="sign out" />SIGN OUT

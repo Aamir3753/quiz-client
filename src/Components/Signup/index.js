@@ -230,7 +230,7 @@ class Signup extends React.Component {
         }
         return (
             <div className="sinup-segment-container">
-                <Segment className="signup-segment-width" loading={this.state.isLoading} raised>
+                <Segment piled className="signup-segment-width" loading={this.state.isLoading} raised>
                     <Form error={this.state.formError} onSubmit={this.submitHandler}>
                         <Grid centered columns="1">
                             <Icon size="massive" name="user circle" />

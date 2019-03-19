@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Container, Button, Icon } from 'semantic-ui-react';
+import { Grid, Container, Button, Icon,Header as SemanticHeader } from 'semantic-ui-react';
 import Navbar from './NavBar';
 class Header extends React.Component {
     render() {
@@ -20,7 +20,7 @@ class Header extends React.Component {
                                             </Button>
                                         </div>
                                         <div>
-                                            <h1>Quiz_Portal</h1>
+                                            <SemanticHeader style={{margin:"0px"}} color="grey" as="h1">Quiz_Portal</SemanticHeader>
                                         </div>
                                     </div>
                                     <div className="navbar-container">

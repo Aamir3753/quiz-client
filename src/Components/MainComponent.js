@@ -28,7 +28,6 @@ class Main extends React.Component {
     closeSideBar = () => this.setState({ sidbarIsOpen: false })
     componentDidMount() {
         this.props.dispatch(Authenticate({ signout: false, redirectTo: this.state.redirectTo }));
-        console.log(this.state.redirectTo)
         this.props.dispatch(QuizesActionDispatcher());
     }
     Home = props => (<Quizes {...props}

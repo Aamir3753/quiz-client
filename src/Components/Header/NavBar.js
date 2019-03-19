@@ -1,22 +1,36 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Icon } from 'semantic-ui-react';
+import { Link, withRouter } from 'react-router-dom';
+import { Button, Icon, Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Authenticate } from '../../Redux/actionCreaters'
 const Navbar = (props) => {
+    console.log(props.authenticate.user);
     const logoutHandler = () => {
-        props.dispatch(Authenticate({signout:true,redirectTo:'/home'}));
+        props.dispatch(Authenticate({ signout: true, redirectTo: '/home' }));
+    }
+    const linkClickHandler = (e) => {
+        props.history.push(e.target.name);
     }
     if (props.authenticate.isAuthentic) {
         return (
             <React.Fragment>
                 <Button secondary>
-                    <Icon name="user" />{props.authenticate.user.firstname + " " + props.authenticate.user.lastname}
+                    <div>
+                        <Image avatar src={props.authenticate.user ? props.authenticate.user.img : ""} />
+                        <span>{props.authenticate.user.firstname + " " + props.authenticate.user.lastname}</span>
+                    </div>
                 </Button>
-                <Button as={Link} to="/" secondary>
+                {/* <Button secondary>
+                    {props.authenticate.user ?
+                        props.authenticate.user.img ? <Image size="tiny" avatar src={props.authenticate.user.img} />: <Icon name="user" />
+                        : null
+                    }
+                    {props.authenticate.user.firstname + " " + props.authenticate.user.lastname}
+                </Button> */}
+                <Button name="/" onClick={linkClickHandler} secondary>
                     <Icon name="home" />HOME
                 </Button>
-                <Button as={Link} to="/results" secondary>
+                <Button name="/results" onClick={linkClickHandler} secondary>
                     <Icon name="file text" />RESULTS
                 </Button>
                 <Button onClick={logoutHandler} secondary>
@@ -43,4 +57,4 @@ const Navbar = (props) => {
 const mapStateToProps = (store) => ({
     authenticate: store.authenticate
 })
-export default connect(mapStateToProps)(Navbar);
+export default withRouter(connect(mapStateToProps)(Navbar));

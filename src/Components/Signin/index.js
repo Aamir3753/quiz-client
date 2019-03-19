@@ -1,7 +1,8 @@
 import React from 'react';
 import { Form, Button, Checkbox, Segment, Message, Grid, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { Siginin as SigininActionDispatcher } from '../../Redux/actionCreaters'
+import { Siginin as SigininActionDispatcher, FacebookLogin as FacebookLoginActionDispatcher } from '../../Redux/actionCreaters'
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 class Signin extends React.Component {
     constructor(props) {
         super(props);
@@ -84,6 +85,10 @@ class Signin extends React.Component {
             {this.state.serverErr ? <li>{this.state.serverErrMess}</li> : null}
         </ul>
     )
+    facebookResponse = (response) => {
+        console.log(response)
+        this.props.dispatch(FacebookLoginActionDispatcher(response.accessToken))
+    }
     render() {
         return (
             <div className="login-segment-container">
@@ -120,7 +125,21 @@ class Signin extends React.Component {
                                 label='Remember me' />
                         </Form.Field>
                         <Message error header="Signin Failed" content={<this.Errors />} />
-                        <Button secondary type='submit'>Submit</Button>
+                        <Button.Group>
+                            <Button secondary type='submit'>Submit</Button>
+                            <Button.Or />
+                            <FacebookLogin
+                                appId="389434655167734"
+                                autoLoad={false}
+                                callback={this.facebookResponse}
+                                render={renderProps => (
+                                    <Button type="button" color="facebook" onClick={renderProps.onClick}>
+                                        <Icon name="facebook f" />
+                                        Sign in with facebook
+                            </Button>
+                                )}
+                            />
+                        </Button.Group>
                     </Form>
                 </Segment>
             </div >

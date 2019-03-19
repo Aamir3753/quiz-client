@@ -309,3 +309,29 @@ const result_detail_success = (result) => ({
     result: result
 })
 // ..................................................................>
+
+// Facebook login action creater
+export const FacebookLogin = (token) => dispatch => {
+    dispatch(signin_loading());
+    axios.get(`${baseUrl}user/facebook/login`, {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
+        .then(res => {
+            localStorage.setItem("token", res.data.token);
+            dispatch(signin_successfull());
+            Authenticate({ signout: false })(dispatch);
+        })
+        .catch(err => {
+            if (err.response) {
+                if (err.response.data.info) {
+                    dispatch(signin_failed(err.response.data.info.name))
+                } else {
+                    dispatch(signin_failed("Some thing went wrong please try later"))
+                }
+            } else {
+                dispatch(signin_failed("Some thing went wrong please try later"))
+            }
+        });
+}

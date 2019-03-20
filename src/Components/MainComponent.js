@@ -12,6 +12,7 @@ import QuizDetail from './QuizDetail';
 import StartQuiz from './SartQuiz';
 import Results from './Results';
 import ResultDetail from './ResultDetail';
+import UserDetail from './UserProfile';
 import { Authenticate, Quizes as QuizesActionDispatcher } from '../Redux/actionCreaters';
 import Private from './PrivateRoute';
 
@@ -54,6 +55,7 @@ class Main extends React.Component {
                                                 <Route path="/quizDetail/:quizId" component={QuizDetail} />
                                                 <Private path="/startQuiz/:quizId" component={StartQuiz} />
                                                 <Private path="/results" component={Results} />
+                                                <Private path="/userDetail" component={UserDetail}/>
                                                 <Private path="/resultDetail/:resultId" component={ResultDetail} />
                                                 <Protected path="/signin" component={Signin} />
                                                 <Protected path="/signup" component={Signup} />

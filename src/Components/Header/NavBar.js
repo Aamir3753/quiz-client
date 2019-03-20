@@ -16,14 +16,14 @@ const Navbar = (props) => {
             <React.Fragment>
                 {
                     props.authenticate.user.img ?
-                        <Button color="teal">
+                        <Button name="/userDetail" onClick={linkClickHandler} color="teal">
                             <div>
                                 <Image avatar src={props.authenticate.user ? props.authenticate.user.img : ""} />
                                 <span>{props.authenticate.user.firstname + " " + props.authenticate.user.lastname}</span>
                             </div>
                         </Button>
                         :
-                        <Button color="teal">
+                        <Button name="/userDetail" onClick={linkClickHandler} color="teal">
                             <Icon name="user" />
                             {props.authenticate.user.firstname + " " + props.authenticate.user.lastname}
                         </Button>

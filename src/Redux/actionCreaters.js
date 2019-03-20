@@ -63,7 +63,6 @@ const signin_successfull = () => ({
 
 // Authenticate action creaters
 export const Authenticate = (info) => dispatch => {
-    console.log(info.redirectTo);
     if (info.signout) localStorage.clear("token");
     const user = verifyToken();
     if (user) {
@@ -245,6 +244,7 @@ export const Results = () => dispatch => {
             }
         })
         .catch(err => {
+            console.log(err.data);
             if (err.response) {
                 dispatch(results_failed(err.response.data.err.message))
             } else {
@@ -272,7 +272,7 @@ export const ResultDetail = (resultId) => dispatch => {
     dispatch(result_detail_loading());
     const isTokenVerified = verifyToken();
     if (!isTokenVerified) {
-        Authenticate({ signuot: true, redirectTo: '/sigin' })(dispatch);
+        Authenticate({ signout: true, redirectTo: '/sigin' })(dispatch);
         dispatch(question_paper_failed("Your are not authenticated"));
         return;
     }
@@ -335,3 +335,76 @@ export const FacebookLogin = (token) => dispatch => {
             }
         });
 }
+// ................................................................>
+// User detail actions creater
+export const UserDetail = () => dispatch => {
+    dispatch(user_detail_loading())
+    const isTokenVerified = verifyToken();
+    if (!isTokenVerified) {
+        Authenticate({ singout: true, redirectTo: "/signin" })(dispatch);
+        dispatch(question_paper_failed("Your are not authenticated"));
+        return;
+    }
+    const token = localStorage.getItem("token");
+    axios.get(`${baseUrl}userDetail`, {
+        headers: {
+            "Authorization": "bearer " + token
+        }
+    })
+        .then(res => {
+            console.log(res);
+            if (res.data.success) {
+                dispatch(user_detail_success(res.data.user));
+            }
+        })
+        .catch(err => {
+            console.log(err.data);
+            if (err.response) {
+                dispatch(user_detail_failed(err.response.data.message))
+            } else {
+                dispatch(user_detail_failed("Some thing went wrong please try later"));
+            }
+        })
+
+}
+// User detail actions
+const user_detail_loading = () => ({
+    type: actionTypes.USER_DETAIL_LOADING
+})
+const user_detail_failed = (errMess) => ({
+    type: actionTypes.USER_DETAIL_FAILED,
+    errMess
+})
+const user_detail_success = (user) => ({
+    type: actionTypes.USER_DETAIL_SUCCESS,
+    user
+})
+// .............................................................>
+// Delete account action creater
+export const DeleteAccount = () => dispatch => {
+    dispatch(user_detail_loading())
+    const isTokenVerified = verifyToken();
+    if (!isTokenVerified) {
+        Authenticate({ singout: true, redirectTo: "/signin" })(dispatch);
+        return;
+    }
+    const token = localStorage.getItem("token");
+    axios.delete(`${baseUrl}userDetail`, {
+        headers: {
+            "Authorization": "bearer " + token
+        }
+    })
+        .then(res => {
+            if (res.data.success) {
+                Authenticate({ signout: true})(dispatch);
+            }
+        })
+        .catch(err => {
+            if (err.response) {
+                dispatch(user_detail_failed(err.response.data.err.message))
+            } else {
+                dispatch(user_detail_failed("Some thing went wrong please try later"));
+            }
+        })
+}
+// ..................................................................................>

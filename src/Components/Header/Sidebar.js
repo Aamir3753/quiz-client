@@ -25,7 +25,7 @@ const Sidebar = (props) => {
                         <Menu.Item onClick={props.closeSideBar} as='a'>
                             <Icon name="arrow left" />
                         </Menu.Item>
-                        <Menu.Item onClick={props.closeSideBar} as={Link} to="/">
+                        <Menu.Item onClick={props.closeSideBar} as={Link} to="/userDetail">
                             {
                                 props.authenticate.user.img ?
                                     <div style={{ textAlign: "center" }}>

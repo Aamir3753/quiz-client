@@ -30,7 +30,7 @@ class Main extends React.Component {
     componentDidMount() {
         this.setState({ componentMounted: true });
         this.props.dispatch(Authenticate({ signout: false, redirectTo: this.state.redirectTo }));
-        this.props.dispatch(QuizesActionDispatcher());
+        this.props.dispatch(QuizesActionDispatcher(1));
     }
     Home = props => (<Quizes {...props}
         isLoading={this.props.quizes.isLoading}

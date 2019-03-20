@@ -1,9 +1,16 @@
 import React from 'react';
 import { Message, Dimmer, Loader, Card, Divider } from 'semantic-ui-react';
-import Search from './Search';
 import { Link } from 'react-router-dom';
+import Search from './Search';
+import Pagination from './Pagination';
+import { Quizes as QuizesActionDispatcher } from '../../Redux/actionCreaters';
+import { connect } from 'react-redux';
+
 const Quizes = (props) => {
-    console.log(props.quizes);
+    const nextPage = (e) => {
+        console.log("djflasj")
+        props.dispatch(QuizesActionDispatcher(e.target.getAttribute("value")))
+    }
     if (props.errMess) {
         return <Message error content={props.errMess} />
     }
@@ -14,17 +21,19 @@ const Quizes = (props) => {
             </Dimmer>
         )
     } else {
+        console.log(props.quizes);
+
         return (
             <div>
                 <Search navigate={props.history.push} />
                 <Card.Group>
-                    {props.quizes.map(quiz => (
-                        <Card  as={Link} to={`/quizDetail/${quiz._id}`} raised centered link key={quiz._id}>
+                    {props.quizes.docs.map(quiz => (
+                        <Card as={Link} to={`/quizDetail/${quiz._id}`} raised centered link key={quiz._id}>
                             <Card.Content>
                                 <Card.Header>
                                     {quiz.title}
                                 </Card.Header>
-                                <Divider/>
+                                <Divider />
                                 <Card.Description>
                                     {quiz.description}
                                 </Card.Description>
@@ -32,8 +41,13 @@ const Quizes = (props) => {
                         </Card>
                     ))}
                 </Card.Group>
+                <div>
+                    <Pagination nextPage={nextPage}
+                        currentPage={props.quizes.page}
+                        totalPages={props.quizes.totalPages} />
+                </div>
             </div>
         )
     }
 }
-export default Quizes;
+export default connect()(Quizes);

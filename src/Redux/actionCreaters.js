@@ -84,9 +84,9 @@ const unAuthenticate = () => ({
 // ...............................................................................>
 
 // Quizes action creater
-export const Quizes = () => dispatch => {
+export const Quizes = (page) => dispatch => {
     dispatch(quizes_loading());
-    axios.get(baseUrl + "quiz")
+    axios.get(baseUrl + `quiz/withPagination/${page}`)
         .then(res => {
             if (res.data.success) {
                 dispatch(quizes_success(res.data.quizes));

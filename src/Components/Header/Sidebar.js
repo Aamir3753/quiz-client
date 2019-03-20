@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sidebar as SemanticSidebar, Menu, Icon } from 'semantic-ui-react';
+import { Sidebar as SemanticSidebar, Menu, Icon, Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Authenticate } from '../../Redux/actionCreaters'
 const Sidebar = (props) => {
     const logoutHandler = () => {
-        props.dispatch(Authenticate({signout:true,redirectTo:'/home'}));
+        props.dispatch(Authenticate({ signout: true, redirectTo: '/home' }));
         props.closeSideBar()
     }
     return (
@@ -26,8 +26,20 @@ const Sidebar = (props) => {
                             <Icon name="arrow left" />
                         </Menu.Item>
                         <Menu.Item onClick={props.closeSideBar} as={Link} to="/">
-                            <Icon name="user" />
-                            {props.authenticate.user.firstname + " " + props.authenticate.user.lastname}
+                            {
+                                props.authenticate.user.img ?
+                                    <div style={{ textAlign: "center" }}>
+                                        <Image centered circular size="tiny" src={props.authenticate.user.img} />
+                                        <div style={{ marginTop: "3px" }}>
+                                            {props.authenticate.user.firstname + " " + props.authenticate.user.lastname}
+                                        </div>
+                                    </div>
+                                    :
+                                    <React.Fragment>
+                                        <Icon name="user" />
+                                        {props.authenticate.user.firstname + " " + props.authenticate.user.lastname}
+                                    </React.Fragment>
+                            }
                         </Menu.Item>
                         <Menu.Item onClick={props.closeSideBar} as={Link} to="/">
                             <Icon name='home' />

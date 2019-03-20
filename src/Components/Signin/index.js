@@ -86,8 +86,10 @@ class Signin extends React.Component {
         </ul>
     )
     facebookResponse = (response) => {
-        console.log(response)
-        this.props.dispatch(FacebookLoginActionDispatcher(response.accessToken))
+        console.log(response);
+        if(response.accessToken){
+            this.props.dispatch(FacebookLoginActionDispatcher(response.accessToken))
+        }
     }
     render() {
         return (

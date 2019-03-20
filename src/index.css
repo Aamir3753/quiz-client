@@ -4,28 +4,36 @@
     flex-direction: column;
 }
 .header-background{
-    background-color:#1B1C1D;
+    background-color:#00B5AD;
     color:white;
     width:100%;
+    display: flex;
+    border-bottom-left-radius: 30px;
 }
 .content-container{
     padding-top:20px;
-    flex-grow:12;
+    padding-bottom:40px;
     overflow:auto;
+    height: 100%;
 }
 .header-container{
     display: flex;
-    flex-grow: 1;
 }
 .footer{
-    text-align: center;
-    flex-grow:1;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    height: 30px;
+    position: fixed;
+    bottom:0;
     width:100%;
-    background-color:#1B1C1D;
-    color:white;
+    background-color:#212121;
+    z-index: 100;
+
 }
 .logo-container{
     display: flex;
+    align-self:center
 }
 .login-segment-container{
     display: flex;

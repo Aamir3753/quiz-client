@@ -14,26 +14,27 @@ const Navbar = (props) => {
     if (props.authenticate.isAuthentic) {
         return (
             <React.Fragment>
-                <Button secondary>
-                    <div>
-                        <Image avatar src={props.authenticate.user ? props.authenticate.user.img : ""} />
-                        <span>{props.authenticate.user.firstname + " " + props.authenticate.user.lastname}</span>
-                    </div>
-                </Button>
-                {/* <Button secondary>
-                    {props.authenticate.user ?
-                        props.authenticate.user.img ? <Image size="tiny" avatar src={props.authenticate.user.img} />: <Icon name="user" />
-                        : null
-                    }
-                    {props.authenticate.user.firstname + " " + props.authenticate.user.lastname}
-                </Button> */}
-                <Button name="/" onClick={linkClickHandler} secondary>
+                {
+                    props.authenticate.user.img ?
+                        <Button color="teal">
+                            <div>
+                                <Image avatar src={props.authenticate.user ? props.authenticate.user.img : ""} />
+                                <span>{props.authenticate.user.firstname + " " + props.authenticate.user.lastname}</span>
+                            </div>
+                        </Button>
+                        :
+                        <Button color="teal">
+                            <Icon name="user" />
+                            {props.authenticate.user.firstname + " " + props.authenticate.user.lastname}
+                        </Button>
+                }
+                <Button color="teal" name="/" onClick={linkClickHandler} >
                     <Icon name="home" />HOME
                 </Button>
-                <Button name="/results" onClick={linkClickHandler} secondary>
+                <Button color="teal" name="/results" onClick={linkClickHandler}>
                     <Icon name="file text" />RESULTS
                 </Button>
-                <Button onClick={logoutHandler} secondary>
+                <Button color="teal" onClick={logoutHandler} >
                     <Icon name="sign out" />SIGN OUT
                 </Button>
             </React.Fragment>
@@ -41,13 +42,13 @@ const Navbar = (props) => {
     } else {
         return (
             <React.Fragment>
-                <Button as={Link} to="/" secondary>
+                <Button color="teal" as={Link} to="/">
                     <Icon name="home" />HOME
             </Button>
-                <Button as={Link} to="/signin" secondary>
+                <Button color="teal" as={Link} to="/signin">
                     <Icon name="sign in" />SIGN IN
             </Button>
-                <Button as={Link} to="/signup" secondary>
+                <Button color="teal" as={Link} to="/signup">
                     <Icon name="signup" />SIGN UP
             </Button>
             </React.Fragment>

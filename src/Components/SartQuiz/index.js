@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { QuestionPaper, SubmitQuestionPaper } from '../../Redux/actionCreaters';
-import { Dimmer, Loader, Message, Button, Segment, Header, Divider, Form } from 'semantic-ui-react';
+import { Dimmer, Loader, Message, Button, Segment, Header, Divider, Form, Transition } from 'semantic-ui-react';
 
 class StartQuiz extends Component {
     constructor(props) {
@@ -47,7 +47,7 @@ class StartQuiz extends Component {
                         quizId: this.props.match.params.quizId,
                         answers: [...prevState.solution.answers, answer]
                     }
-                }), () => this.props.dispatch(SubmitQuestionPaper(this.state.solution,this.props.history.push)))
+                }), () => this.props.dispatch(SubmitQuestionPaper(this.state.solution, this.props.history.push)))
 
             }
             console.log("Question Completed");
@@ -69,14 +69,14 @@ class StartQuiz extends Component {
             return {
                 ...prevState,
                 isLoading: true,
-                errMess:null,
+                errMess: null,
                 questions: null
             }
         }
         if (nextProps.questions.errMess) {
             return {
                 ...prevState,
-                 isLoading: false,
+                isLoading: false,
                 errMess: nextProps.questions.errMess,
                 questions: null
             }
@@ -84,7 +84,7 @@ class StartQuiz extends Component {
         else if (nextProps.questions.questions) {
             return {
                 ...prevState,
-                isLoading:false,
+                isLoading: false,
                 questions: nextProps.questions.questions,
                 totalQuestions: nextProps.questions.questions.length,
             }
@@ -133,12 +133,14 @@ class StartQuiz extends Component {
             return (
                 <div className="question-container">
                     <Segment>
-                        <div>
-                            <Header as="h4">
-                                <b>{this.state.questionCounter + 1}) </b>
-                                {this.state.questions[this.state.questionCounter].question}
-                            </Header>
-                        </div>
+                        <Transition animation="pulse" duration={800} visible={this.state.animate}>
+                            <div>
+                                <Header as="h4">
+                                    <b>{this.state.questionCounter + 1}) </b>
+                                    {this.state.questions[this.state.questionCounter].question}
+                                </Header>
+                            </div>
+                        </Transition>
                         <Divider />
                         <div>
                             {this.state.questions[this.state.questionCounter].options.map(option => {

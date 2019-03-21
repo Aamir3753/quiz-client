@@ -1,8 +1,13 @@
 import React from 'react';
-import { Form, Button, Checkbox, Segment, Message, Grid, Icon } from 'semantic-ui-react';
+import {
+    Form, Button, Checkbox, Segment,
+    Message, Grid, Icon, Header
+} from 'semantic-ui-react';
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { Siginin as SigininActionDispatcher, FacebookLogin as FacebookLoginActionDispatcher } from '../../Redux/actionCreaters'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import ForgetPassword from './ForgetPassword';
 class Signin extends React.Component {
     constructor(props) {
         super(props);
@@ -18,6 +23,7 @@ class Signin extends React.Component {
             serverErr: false,
             formError: false,
             isLoading: false,
+            forgetModalIsOpen:false,
         }
     }
 
@@ -78,6 +84,8 @@ class Signin extends React.Component {
             }
         }
     }
+    openModal =()=>this.setState({forgetModalIsOpen:true})
+    closeModal = ()=>this.setState({forgetModalIsOpen:false})
     Errors = () => (
         <ul>
             {this.state.emailErr ? <li> {this.state.emailErrMess}</li> : null}
@@ -87,7 +95,7 @@ class Signin extends React.Component {
     )
     facebookResponse = (response) => {
         console.log(response);
-        if(response.accessToken){
+        if (response.accessToken) {
             this.props.dispatch(FacebookLoginActionDispatcher(response.accessToken))
         }
     }
@@ -110,7 +118,7 @@ class Signin extends React.Component {
                                 value={this.state.email}
                                 placeholder='Enter Email here' />
                         </Form.Field>
-                        <Form.Field>
+                        <Form.Field style={{ marginBottom: "3px" }}>
                             <Form.Input
                                 required
                                 error={this.state.passwordErr}
@@ -121,6 +129,12 @@ class Signin extends React.Component {
                                 type="password"
                                 placeholder='Enter password here' />
                         </Form.Field>
+                        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                                <Header as="a" color="blue" href="javascipt:void(0)"
+                                 size="tiny" textAlign="right"
+                                 onClick ={this.openModal}
+                                  content="Forget Password?" />
+                        </div>
                         <Form.Field>
                             <Checkbox checked={this.state.remember}
                                 onChange={this.rememberHandler}
@@ -144,6 +158,7 @@ class Signin extends React.Component {
                         </Button.Group>
                     </Form>
                 </Segment>
+                <ForgetPassword closeModal={this.closeModal} isOpen={this.state.forgetModalIsOpen} />
             </div >
         )
     }

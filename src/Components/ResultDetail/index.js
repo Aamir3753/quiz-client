@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
     Dimmer, Loader,
     Message, Segment, Divider, Header,
@@ -21,7 +21,6 @@ class ResultDetail extends Component {
     }
 
     render() {
-        console.log(this.props.resultDetail)
         if (this.props.resultDetail.isLoading) {
             return (
                 <Dimmer active>
@@ -37,7 +36,6 @@ class ResultDetail extends Component {
         else {
             if (this.props.resultDetail.result) {
                 const { result, repeatQuestions } = this.props.resultDetail.result
-                console.log(repeatQuestions);
                 return (
                     <div>
                         <Breadcrumb>
@@ -107,7 +105,7 @@ class ResultDetail extends Component {
             }
             else {
                 return (
-                    <h1>What the F**k</h1>
+                    <Message error content="Some thing went wrong please try again later" />
                 );
             }
         }

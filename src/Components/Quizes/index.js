@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 
 const Quizes = (props) => {
     const nextPage = (e) => {
-        console.log("djflasj")
         props.dispatch(QuizesActionDispatcher(e.target.getAttribute("value")))
     }
     if (props.errMess) {
@@ -21,8 +20,6 @@ const Quizes = (props) => {
             </Dimmer>
         )
     } else {
-        console.log(props.quizes);
-
         return (
             <div>
                 <Search navigate={props.history.push} />

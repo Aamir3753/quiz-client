@@ -4,7 +4,6 @@ import { Button, Icon, Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Authenticate } from '../../Redux/actionCreaters'
 const Navbar = (props) => {
-    console.log(props.authenticate.user);
     const logoutHandler = () => {
         props.dispatch(Authenticate({ signout: true, redirectTo: '/home' }));
     }
@@ -17,10 +16,12 @@ const Navbar = (props) => {
                 {
                     props.authenticate.user.img ?
                         <Button name="/userDetail" onClick={linkClickHandler} color="teal">
-                            <div>
-                                <Image avatar src={props.authenticate.user ? props.authenticate.user.img : ""} />
+                        <Button.Content>
+                            <div >
+                                <Image name="/userDetail" onClick={linkClickHandler} avatar src={props.authenticate.user ? props.authenticate.user.img : ""} />
                                 <span>{props.authenticate.user.firstname + " " + props.authenticate.user.lastname}</span>
                             </div>
+                        </Button.Content>
                         </Button>
                         :
                         <Button name="/userDetail" onClick={linkClickHandler} color="teal">

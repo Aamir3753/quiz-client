@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
-import { Sidebar, Container, Transition,Header as SemanticHeader } from 'semantic-ui-react';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Sidebar, Container, Transition, Header as SemanticHeader } from 'semantic-ui-react';
+import { Switch, Route, withRouter,Redirect } from 'react-router-dom';
 import SidebarComponent from './Header/Sidebar';
 import Signin from './Signin';
 import Signup from './Signup';
@@ -13,6 +13,7 @@ import StartQuiz from './SartQuiz';
 import Results from './Results';
 import ResultDetail from './ResultDetail';
 import UserDetail from './UserProfile';
+import ResetPassword from './ResetPassword';
 import { Authenticate, Quizes as QuizesActionDispatcher } from '../Redux/actionCreaters';
 import Private from './PrivateRoute';
 
@@ -33,6 +34,7 @@ class Main extends React.Component {
         this.props.dispatch(Authenticate({ signout: false, redirectTo: this.state.redirectTo }));
         this.props.dispatch(QuizesActionDispatcher(1));
     }
+
     Home = props => (<Quizes {...props}
         isLoading={this.props.quizes.isLoading}
         errMess={this.props.quizes.errMess}
@@ -45,7 +47,7 @@ class Main extends React.Component {
                     <div className="app-container">
                         <Sidebar.Pushable  >
                             <SidebarComponent sidbarIsOpen={this.state.sidbarIsOpen} closeSideBar={this.closeSideBar} />
-                            <Sidebar.Pusher  dimmed={this.state.sidbarIsOpen}>
+                            <Sidebar.Pusher dimmed={this.state.sidbarIsOpen}>
                                 <div className="main-container">
                                     <Header openSideBar={this.openSideBar} />
                                     <div className="content-container">
@@ -55,15 +57,17 @@ class Main extends React.Component {
                                                 <Route path="/quizDetail/:quizId" component={QuizDetail} />
                                                 <Private path="/startQuiz/:quizId" component={StartQuiz} />
                                                 <Private path="/results" component={Results} />
-                                                <Private path="/userDetail" component={UserDetail}/>
+                                                <Private path="/userDetail" component={UserDetail} />
+                                                <Protected path="/resetPassword/:token" component={ResetPassword} />
                                                 <Private path="/resultDetail/:resultId" component={ResultDetail} />
                                                 <Protected path="/signin" component={Signin} />
                                                 <Protected path="/signup" component={Signup} />
+                                                <Redirect to="/" />
                                             </Switch>
                                         </Container>
                                     </div>
                                     <div className="footer">
-                                        <SemanticHeader color="grey" style={{ marginTop:"3px"}} as="h3">Copyright &copy; 2019 </SemanticHeader>
+                                        <SemanticHeader color="grey" style={{ marginTop: "3px" }} as="h3">Copyright &copy; 2019 </SemanticHeader>
                                     </div>
                                 </div>
                             </Sidebar.Pusher>

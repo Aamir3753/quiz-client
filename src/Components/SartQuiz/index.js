@@ -50,7 +50,6 @@ class StartQuiz extends Component {
                 }), () => this.props.dispatch(SubmitQuestionPaper(this.state.solution, this.props.history.push)))
 
             }
-            console.log("Question Completed");
         } else {
             this.setState((prevState) => ({
                 questionCounter: ++prevState.questionCounter,

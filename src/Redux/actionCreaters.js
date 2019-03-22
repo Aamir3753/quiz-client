@@ -238,15 +238,19 @@ export const Results = () => dispatch => {
         }
     })
         .then(res => {
-            console.log(res);
             if (res.data.success) {
                 dispatch(results_success(res.data.result));
             }
         })
         .catch(err => {
-            console.log(err.data);
             if (err.response) {
-                dispatch(results_failed(err.response.data.err.message))
+                if (err.response.data.err) {
+                    dispatch(results_failed(err.response.data.err.message))
+                }
+                else {
+                    dispatch(results_failed("Some thing went wrong please try later"));
+                }
+
             } else {
                 dispatch(results_failed("Some thing went wrong please try later"));
             }
@@ -288,7 +292,6 @@ export const ResultDetail = (resultId) => dispatch => {
             }
         })
         .catch(err => {
-            console.log(err.response)
             if (err.response) {
                 dispatch(result_detail_failed(err.response.data.err.message))
             } else {
@@ -352,13 +355,11 @@ export const UserDetail = () => dispatch => {
         }
     })
         .then(res => {
-            console.log(res);
             if (res.data.success) {
                 dispatch(user_detail_success(res.data.user));
             }
         })
         .catch(err => {
-            console.log(err.data);
             if (err.response) {
                 dispatch(user_detail_failed(err.response.data.message))
             } else {
@@ -396,7 +397,7 @@ export const DeleteAccount = () => dispatch => {
     })
         .then(res => {
             if (res.data.success) {
-                Authenticate({ signout: true})(dispatch);
+                Authenticate({ signout: true })(dispatch);
             }
         })
         .catch(err => {

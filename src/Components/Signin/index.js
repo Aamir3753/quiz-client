@@ -3,7 +3,6 @@ import {
     Form, Button, Checkbox, Segment,
     Message, Grid, Icon, Header
 } from 'semantic-ui-react';
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { Siginin as SigininActionDispatcher, FacebookLogin as FacebookLoginActionDispatcher } from '../../Redux/actionCreaters'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
@@ -94,7 +93,6 @@ class Signin extends React.Component {
         </ul>
     )
     facebookResponse = (response) => {
-        console.log(response);
         if (response.accessToken) {
             this.props.dispatch(FacebookLoginActionDispatcher(response.accessToken))
         }
@@ -133,7 +131,7 @@ class Signin extends React.Component {
                                 <Header as="a" color="blue" href="javascipt:void(0)"
                                  size="tiny" textAlign="right"
                                  onClick ={this.openModal}
-                                  content="Forget Password?" />
+                                  content="Forget Password ?" />
                         </div>
                         <Form.Field>
                             <Checkbox checked={this.state.remember}

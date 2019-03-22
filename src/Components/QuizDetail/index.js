@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Dimmer, Loader, Message, Breadcrumb, Divider, Segment, Button} from 'semantic-ui-react';
+import { Dimmer, Loader, Message, Breadcrumb, Divider, Segment, Button } from 'semantic-ui-react';
 import { QuizDetail as QuizDetailActionDispatcher } from '../../Redux/actionCreaters';
 class QuizDetail extends Component {
     constructor(props) {
@@ -15,6 +15,8 @@ class QuizDetail extends Component {
         this.props.dispatch(QuizDetailActionDispatcher(this.props.match.params.quizId))
     }
     render() {
+        let error = new Error();
+        throw error;
         if (this.props.quiz.isLoading) {
             return (
                 <Dimmer active>

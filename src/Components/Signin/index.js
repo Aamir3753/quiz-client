@@ -147,6 +147,7 @@ class Signin extends React.Component {
                                 appId="389434655167734"
                                 autoLoad={false}
                                 callback={this.facebookResponse}
+                                disableMobileRedirect={true}
                                 render={renderProps => (
                                     <Button type="button" color="facebook" onClick={renderProps.onClick}>
                                         <Icon name="facebook f" />

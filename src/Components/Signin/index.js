@@ -125,6 +125,7 @@ class Signin extends React.Component {
                                 name="password"
                                 value={this.state.password}
                                 type="password"
+                                autoComplete="true"
                                 placeholder='Enter password here' />
                         </Form.Field>
                         <div style={{ display: "flex", justifyContent: "flex-end" }}>

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { baseUrl } from '../../Shared'
 
 class ResetPassword extends Component {
+    _mounted = false;
     constructor(props) {
         super(props);
         this.state = {
@@ -34,34 +35,45 @@ class ResetPassword extends Component {
             })
                 .then(res => {
                     if (res.status === 200) {
-                        this.setState({ isLoading: false, error: false, success: true, message: "Password changed!" })
-                        setTimeout(() => {
-                            this.props.history.push("/signin")
-                        }, 2000)
+                        if (this._mounted) {
+                            this.setState({ isLoading: false, error: false, success: true, message: "Password changed!" })
+                            setTimeout(() => {
+                                this.props.history.push("/signin")
+                            }, 2000)
+                        }
                     }
                 })
                 .catch(err => {
-                    if (err.response) {
-                        if (err.response.data) {
-                            if (err.response.data.err) {
-                                if (err.response.data.err.name === "TokenExpiredError")
-                                    this.setState({ isLoading: false, error: true, message: "Link Expired" })
-                                else if (err.response.data.err.name === "JsonWebTokenError")
-                                    this.setState({ isLoading: false, error: true, message: "Invalid Link" })
-                                else
-                                    this.setState({ isLoading: false, error: true, message: "Some thing went wrong please try angain late" })
-                            }
-                            else {
-                                this.setState({ isLoading: false, error: true, message: "Some thing went wrong please try angain later" })
+                    if (this._mounted) {
+                        if (err.response) {
+                            if (err.response.data) {
+                                if (err.response.data.err) {
+                                    if (err.response.data.err.name === "TokenExpiredError")
+                                        this.setState({ isLoading: false, error: true, message: "Link Expired" })
+                                    else if (err.response.data.err.name === "JsonWebTokenError")
+                                        this.setState({ isLoading: false, error: true, message: "Invalid Link" })
+                                    else
+                                        this.setState({ isLoading: false, error: true, message: "Some thing went wrong please try angain late" })
+                                }
+                                else {
+                                    this.setState({ isLoading: false, error: true, message: "Some thing went wrong please try angain later" })
+                                }
                             }
                         }
-                    }
-                    else {
-                        this.setState({ isLoading: false, error: true, message: "You are not connected to the internet" })
+                        else {
+                            this.setState({ isLoading: false, error: true, message: "You are not connected to the internet" })
+                        }
                     }
                 })
         }
     }
+    componentWillUnmount() {
+        this._mounted = false
+    }
+    componentDidMount() {
+        this._mounted = true
+    }
+
     render() {
         return (
             <div style={{ display: "flex", justifyContent: "center" }}>

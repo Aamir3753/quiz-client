@@ -15,8 +15,6 @@ class QuizDetail extends Component {
         this.props.dispatch(QuizDetailActionDispatcher(this.props.match.params.quizId))
     }
     render() {
-        let error = new Error();
-        throw error;
         if (this.props.quiz.isLoading) {
             return (
                 <Dimmer active>

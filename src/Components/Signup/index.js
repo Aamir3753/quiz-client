@@ -291,6 +291,7 @@ class Signup extends React.Component {
                                 error={this.state.passwordErr}
                                 name="password"
                                 value={this.state.password}
+                                autoComplete="true"
                                 type="password" placeholder='Enter password here' />
                         </Form.Field>
                         <Form.Field>
@@ -301,6 +302,7 @@ class Signup extends React.Component {
                                 onChange={this.changeHandler}
                                 name="confirmPassword"
                                 value={this.state.confirmPassword}
+                                autoComplete="true"
                                 type="password" placeholder='Confirm password' />
                         </Form.Field>
                         <Message error header="Signup Failed" content={<this.Errors />} />

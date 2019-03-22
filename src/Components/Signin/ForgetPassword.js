@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, Button, Message} from 'semantic-ui-react';
+import { Modal, Form, Button, Message } from 'semantic-ui-react';
 import { baseUrl } from '../../Shared';
 import axios from 'axios';
 
@@ -34,9 +34,8 @@ class ForgetPassword extends Component {
                 }
             })
             .catch(err => {
-                if (err.response) {
-                    if (this._mounted) {
-
+                if (this._mounted) {
+                    if (err.response) {
                         if (err.response.status === 500) {
                             this.setState({ error: true, message: "Some thing went wrong please try again later", isLoading: false })
                         } else if (err.response.status === 403) {
